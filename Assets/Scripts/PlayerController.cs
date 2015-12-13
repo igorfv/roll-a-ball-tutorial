@@ -30,14 +30,14 @@ public class PlayerController : MonoBehaviour {
 		float moveVertical;
 
 
-		if (SystemInfo.deviceType == DeviceType.Handheld) {
+		#if UNITY_STANDALONE
+			moveHorizontal = Input.GetAxis ("Horizontal");
+			moveVertical = Input.GetAxis ("Vertical");
+		#else
 			curAc = Vector3.Lerp(curAc, Input.acceleration-zeroAc, Time.deltaTime/smooth);
 			moveHorizontal = Mathf.Clamp(curAc.x * accelerationSensibility, -1, 1);
 			moveVertical = Mathf.Clamp(curAc.y * accelerationSensibility, -1, 1);
-		} else {
-			moveHorizontal = Input.GetAxis ("Horizontal");
-			moveVertical = Input.GetAxis ("Vertical");
-		}
+		#endif
 		
 		Vector3 movement = new Vector3 (moveHorizontal, 0.0f, moveVertical);
 		
